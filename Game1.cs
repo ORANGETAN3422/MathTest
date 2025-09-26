@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MathTest.GraphDrawer;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -31,6 +32,7 @@ namespace MathTest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Globals.LoadContent(GraphicsDevice, Content);
+            LinearDrawer.DrawLine("buh");
         }
 
         protected override void Update(GameTime gameTime)
