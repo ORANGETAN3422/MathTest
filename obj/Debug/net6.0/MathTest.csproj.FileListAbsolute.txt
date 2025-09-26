@@ -29,4 +29,5 @@ C:\Workspace\MathTest\MathTest\bin\Debug\net6.0\FontStashSharp.MonoGame.dll
 C:\Workspace\MathTest\MathTest\bin\Debug\net6.0\FontStashSharp.Rasterizers.StbTrueTypeSharp.dll
 C:\Workspace\MathTest\MathTest\bin\Debug\net6.0\StbImageSharp.dll
 C:\Workspace\MathTest\MathTest\bin\Debug\net6.0\StbTrueTypeSharp.dll
-C:\Workspace\MathTest\MathTest\bin\Debug\net6.0\Content\Fonts\Asana-Math.otf
+C:\Workspace\MathTest\MathTest\obj\Debug\net6.0\MathTest.sourcelink.json
+C:\Workspace\MathTest\MathTest\bin\Debug\net6.0\Content\Fonts\cmunrm.ttf

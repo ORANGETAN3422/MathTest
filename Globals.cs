@@ -17,10 +17,9 @@ public static class Globals
     public static Texture2D BlankTex { get; private set; }
     public static FontSystem FontSystem;
     public static DynamicSpriteFont MainFont { get; private set; }
-    public static float FontSize = 18;
+    public static float FontSize = 24;
 
     public static Grid Grid { get; private set; }
-    public static GridDisplayControls GridDisplayControls { get; private set; }
 
     public static void LoadContent(GraphicsDevice graphicsDevice, ContentManager content)
     {
@@ -28,19 +27,15 @@ public static class Globals
         BlankTex.SetData(new[] { Color.White });
 
         FontSystem = new FontSystem();
-        FontSystem.AddFont(File.ReadAllBytes("Content/Fonts/Asana-Math.otf"));
+        FontSystem.AddFont(File.ReadAllBytes("Content/Fonts/cmunrm.ttf"));
         MainFont = FontSystem.GetFont(FontSize);
 
         Grid = new Grid();
-        GridDisplayControls = new GridDisplayControls();
     }
 
     public static void Draw(SpriteBatch spriteBatch)
     {
         if (Grid != null)
             Grid.Draw(spriteBatch);
-        
-        if (GridDisplayControls != null)
-            GridDisplayControls.Draw(spriteBatch);
     }
 }

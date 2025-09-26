@@ -14,8 +14,13 @@ namespace MathTest.GraphDrawer;
 
 public class Grid
 {
-    private int pixelIntervals;
+    private int gapIntervals = 50;
     private int axisWidth = 3;
+    private Color axisColor = new Color(255, 204, 102);
+    private Color gridLineColor = new Color(51, 51, 51);
+    private Color[] lineColor = new Color[3] { new Color(102, 255, 255), new Color(255, 102, 255), new Color(102, 255, 102) };
+
+    private Vector2 origin = new Vector2(Globals.WindowWidth / 2, Globals.WindowHeight / 2);
 
     private Line xAxis;
     private Line yAxis;
@@ -24,26 +29,25 @@ public class Grid
     private Vector2[] yCoords;
 
     /// <summary>
-    /// Creates the 1st quadrant of a cartesian plane
+    /// Creates a cartesian plane
     /// </summary>
-    /// <param name="width">the width of the grid in pixels</param>
-    /// <param name="height">the height of the grid in pixels</param>
-    /// <param name="pixelIntervals">the amount of pixels between an increment in x or y</param>
     public Grid()
     {
-        InitalizeGridLines();
+        InitalizePlaneAxes();
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        DrawGridLines(spriteBatch);
+
         xAxis.Draw(spriteBatch);
         yAxis.Draw(spriteBatch);
 
-        //DrawAxesIntervals(spriteBatch);
+        DrawAxesLabels(spriteBatch);
     }
 
 
-    private void InitalizeGridLines()
+    private void InitalizePlaneAxes()
     {
         xCoords = new Vector2[]
         {
@@ -57,60 +61,85 @@ public class Grid
         new Vector2(Globals.WindowWidth / 2 - axisWidth / 2, Globals.WindowHeight)
         };
 
-        xAxis = new Line(xCoords[0], xCoords[1], Color.White, thickness: axisWidth);
-        yAxis = new Line(yCoords[0], yCoords[1], Color.White, thickness: axisWidth);
+        xAxis = new Line(xCoords[0], xCoords[1], axisColor, thickness: axisWidth);
+        yAxis = new Line(yCoords[0], yCoords[1], axisColor, thickness: axisWidth);
     }
 
-    /*private void DrawAxesIntervals(SpriteBatch spriteBatch)
+    private void DrawGridLines(SpriteBatch spriteBatch)
     {
-        Globals.MainFont.DrawText(spriteBatch, "0", new Vector2(GridSize.X - 12, GridSize.Y + GridSize.Height + 4), Color.White);
-
-        int x = 1;
-        for (int i = pixelIntervals; i <= GridSize.Width; i += pixelIntervals)
+        // X axis
+        for (int y = (int)origin.Y; y < Globals.WindowHeight; y += gapIntervals)
         {
-            float tickX = GridSize.X + i;
-            if (tickX > GridSize.Right) break;
-
-            Vector2 start = new Vector2(tickX, GridSize.Bottom);
-            Vector2 end = new Vector2(tickX, GridSize.Bottom + 6);
-            Line tick = new Line(start, end, Color.White, 1);
-            tick.Draw(spriteBatch);
-
-            string label = x.ToString();
-            Vector2 labelSize = Globals.MainFont.MeasureString(label);
-            float lineHeight = Globals.MainFont.LineHeight;
-            Vector2 labelPos = new Vector2(
-                tickX - labelSize.X / 2,
-                GridSize.Bottom + lineHeight * 0.2f
-            );
-            DynamicSpriteFont font = Globals.FontSystem.GetFont(Globals.FontSize);
-            font.DrawText(spriteBatch, label, labelPos, Color.White);
-
-            x++;
+            Line line = new Line(new Vector2(0, y), new Vector2(Globals.WindowWidth, y), gridLineColor, thickness: 2);
+            line.Draw(spriteBatch);
+        }
+        for (int y = (int)origin.Y; y > 0; y -= gapIntervals)
+        {
+            Line line = new Line(new Vector2(0, y), new Vector2(Globals.WindowWidth, y), gridLineColor, thickness: 2);
+            line.Draw(spriteBatch);
         }
 
-        int y = 1;
-        for (int i = pixelIntervals; i <= GridSize.Height; i += pixelIntervals)
+
+        // Y axis
+        for (int x = (int)origin.X; x < Globals.WindowWidth; x += gapIntervals)
         {
-            float tickY = GridSize.Bottom - i;
-            if (tickY < GridSize.Top) break;
-
-            Vector2 start = new Vector2(GridSize.Left - 6, tickY);
-            Vector2 end = new Vector2(GridSize.Left, tickY);
-            Line tick = new Line(start, end, Color.White, 1);
-            tick.Draw(spriteBatch);
-
-            string label = y.ToString();
-            Vector2 labelSize = Globals.MainFont.MeasureString(label);
-            float lineHeight = Globals.MainFont.LineHeight;
-            Vector2 labelPos = new Vector2(
-                GridSize.Left - labelSize.X - 8,
-                tickY - lineHeight / 2
-            );
-            DynamicSpriteFont font = Globals.FontSystem.GetFont(Globals.FontSize);
-            font.DrawText(spriteBatch, label, labelPos, Color.White);
-
-            y++;
+            Line line = new Line(new Vector2(x, 0), new Vector2(x, Globals.WindowHeight), gridLineColor, thickness: 2);
+            line.Draw(spriteBatch);
         }
-    }*/
+
+        for (int x = (int)origin.X; x > 0; x -= gapIntervals)
+        {
+            Line line = new Line(new Vector2(x, 0), new Vector2(x, Globals.WindowHeight), gridLineColor, thickness: 2);
+            line.Draw(spriteBatch);
+        }
+    }
+
+    private void DrawAxesLabels(SpriteBatch spriteBatch)
+    {
+        if (Globals.MainFont == null) return;
+
+        // X axis
+        for (int x = (int)origin.X; x < Globals.WindowWidth; x += gapIntervals)
+        {
+            int value = (x - (int)origin.X) / gapIntervals;
+            if (value == 0) continue;
+
+            string text = value.ToString();
+            var textSize = Globals.MainFont.MeasureString(text);
+            Globals.MainFont.DrawText(spriteBatch, text, new Vector2(x - textSize.X / 2, origin.Y + 5), Color.White);
+        }
+
+        for (int x = (int)origin.X - gapIntervals; x > 0; x -= gapIntervals)
+        {
+            int value = (x - (int)origin.X) / gapIntervals;
+            string text = value.ToString();
+            var textSize = Globals.MainFont.MeasureString(text);
+            Globals.MainFont.DrawText(spriteBatch, text, new Vector2(x - textSize.X / 2, origin.Y + 5), Color.White);
+        }
+
+        // Y axis
+        for (int y = (int)origin.Y; y < Globals.WindowHeight; y += gapIntervals)
+        {
+            int value = -((y - (int)origin.Y) / gapIntervals);
+            if (value == 0) continue;
+
+            string text = value.ToString();
+            var textSize = Globals.MainFont.MeasureString(text);
+            Globals.MainFont.DrawText(spriteBatch, text, new Vector2(origin.X + 5, y - textSize.Y / 2), Color.White);
+        }
+
+        for (int y = (int)origin.Y - gapIntervals; y > 0; y -= gapIntervals)
+        {
+            int value = -((y - (int)origin.Y) / gapIntervals);
+            string text = value.ToString();
+            var textSize = Globals.MainFont.MeasureString(text);
+            Globals.MainFont.DrawText(spriteBatch, text, new Vector2(origin.X + 5, y - textSize.Y / 2), Color.White);
+        }
+
+        // Origin
+        string zero = "0";
+        var zeroSize = Globals.MainFont.MeasureString(zero);
+        Globals.MainFont.DrawText(spriteBatch, zero, origin + new Vector2(-zeroSize.X - 8, 5), Color.White);
+    }
+
 }
