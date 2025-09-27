@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using FontStashSharp;
 using System.IO;
+using MathTest.MathUtils;
+using System.Diagnostics;
 
 namespace MathTest;
 
@@ -31,6 +33,10 @@ public static class Globals
         MainFont = FontSystem.GetFont(FontSize);
 
         Grid = new Grid();
+
+        // testing simplification
+        double test = Simplification.SimplifyConstantExpression("(5+3) * 2 / -(6 - 1)");
+        Debug.WriteLine(test);
     }
 
     public static void Draw(SpriteBatch spriteBatch)

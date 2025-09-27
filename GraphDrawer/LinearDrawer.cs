@@ -16,7 +16,7 @@ public static class LinearDrawer
 
     public static void DrawLine(string function)
     {
-        ParseIntoFunction("y = 4x + 2");
+        //ParseIntoFunction("y = 4x + 2");
     }
 
     private static void ParseIntoFunction(string f)
