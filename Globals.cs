@@ -35,7 +35,7 @@ public static class Globals
         Grid = new Grid();
 
         // testing simplification
-        double test = Simplification.SimplifyConstantExpression("(5+3) * 2 / -(6 - 1)");
+        decimal test = Simplification.SimplifyConstantExpression("13 * -1.2(5 / 1) / 2 + (5 + 16.2) * 9 / 2");
         Debug.WriteLine(test);
     }
 
