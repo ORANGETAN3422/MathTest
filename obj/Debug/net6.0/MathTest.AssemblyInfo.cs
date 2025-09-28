@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MathTest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb679957a780d85b364623b1811203789b5aa21c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+690cd9586f6d1fccac6d05d8ddbba31b66fe4c01")]
 [assembly: System.Reflection.AssemblyProductAttribute("MathTest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MathTest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
