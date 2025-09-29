@@ -34,9 +34,9 @@ public static class Globals
 
         Grid = new Grid();
 
-        // testing simplification
-        decimal test = Simplification.SimplifyConstantExpression("13 * -1.2(5 / 1) / 2 + (5 + 16.2) * 9 / 2");
-        Debug.WriteLine(test);
+        LinearDrawer.AddLine("y=3x+2", Grid.lineColor[0]);
+        LinearDrawer.AddLine("y=1/2x", Grid.lineColor[1]);
+        LinearDrawer.AddLine("y=2", Grid.lineColor[2]);
     }
 
     public static void Draw(SpriteBatch spriteBatch)

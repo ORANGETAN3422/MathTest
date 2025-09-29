@@ -14,11 +14,12 @@ namespace MathTest.GraphDrawer;
 
 public class Grid
 {
+
     private int gapIntervals = 30;
     private int axisWidth = 3;
-    private Color axisColor = new Color(255, 204, 102);
-    private Color gridLineColor = new Color(51, 51, 51);
-    private Color[] lineColor = new Color[3] { new Color(102, 255, 255), new Color(255, 102, 255), new Color(102, 255, 102) };
+    public Color axisColor = new Color(255, 204, 102);
+    public Color gridLineColor = new Color(51, 51, 51);
+    public Color[] lineColor = new Color[3] { new Color(102, 255, 255), new Color(255, 102, 255), new Color(102, 255, 102) };
 
     public Vector2 Origin { get; set; } = new Vector2(Globals.WindowWidth / 2, Globals.WindowHeight / 2);
 
@@ -28,12 +29,21 @@ public class Grid
     private Vector2[] xCoords;
     private Vector2[] yCoords;
 
+    public int LeftOfPlane => (int)Origin.X / -gapIntervals;
+    public int RightOfPlane => (int)Origin.X / gapIntervals;
+
+    public int TopOfPlane => (int)Origin.Y / gapIntervals;
+    public int BottomOfPlane => (int)Origin.Y / -gapIntervals;
+
+    public decimal intervalsPerPixel { get; set; }
+
     /// <summary>
     /// Creates a cartesian plane
     /// </summary>
     public Grid()
     {
         InitalizePlaneAxes();
+        intervalsPerPixel = 1m / gapIntervals;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -48,9 +58,15 @@ public class Grid
         DrawLinear(spriteBatch);
     }
 
+    public float xCoordToPosition(float x) => Origin.X + (x * gapIntervals);
+    public float yCoordToPosition(float y) => Origin.Y - (y * gapIntervals);
+
     private void DrawLinear(SpriteBatch spriteBatch)
     {
-
+        foreach (Line l in LinearDrawer.Lines)
+        {
+            l.Draw(spriteBatch);
+        }
     }
 
     private void InitalizePlaneAxes()

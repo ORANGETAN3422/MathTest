@@ -17,8 +17,13 @@ namespace MathTest
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            _graphics.PreferMultiSampling = true;
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+
             _graphics.PreferredBackBufferWidth = Globals.WindowWidth;
             _graphics.PreferredBackBufferHeight = Globals.WindowHeight;
+
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -32,7 +37,6 @@ namespace MathTest
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Globals.LoadContent(GraphicsDevice, Content);
-            LinearDrawer.DrawLine("buh");
         }
 
         protected override void Update(GameTime gameTime)
@@ -47,7 +51,7 @@ namespace MathTest
         {
             GraphicsDevice.Clear(new Color(18, 18, 18));
 
-            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, blendState: BlendState.AlphaBlend);
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, null, null);
 
             Globals.Draw(_spriteBatch);
 

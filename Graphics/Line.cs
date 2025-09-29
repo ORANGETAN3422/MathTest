@@ -26,15 +26,18 @@ public class Line
         float angle = (float)Math.Atan2(edge.Y, edge.X);
         float length = edge.Length();
 
+        Vector2 origin = new Vector2(0, Thickness / 4f);
+
         spriteBatch.Draw(
             Globals.BlankTex,
             new Rectangle((int)Start.X, (int)Start.Y, (int)length, (int)Thickness),
             null,
             Color,
             angle,
-            Vector2.Zero,
+            origin,
             SpriteEffects.None,
             0f
         );
+
     }
 }
