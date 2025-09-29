@@ -9,16 +9,34 @@ using MathTest.MathUtils;
 
 namespace MathTest.GraphDrawer;
 
+public enum LineColor
+{
+    Cyan,
+    Magenta,
+    Lime,
+    GoldenRod,
+    White
+}
+
 public static class LinearDrawer
 {
     public static List<Line> Lines = new List<Line>();
+
+    public static void AddLine(string function, LineColor color)
+    {
+        decimal m = ParseIntoFunction(function)[0];
+        decimal b = ParseIntoFunction(function)[1];
+
+        Line l = new Line(DetermineStart(m, b), DetermineEnd(m, b), lineColor(color), thickness: 2);
+        Lines.Add(l);
+    }
 
     public static void AddLine(string function, Color color)
     {
         decimal m = ParseIntoFunction(function)[0];
         decimal b = ParseIntoFunction(function)[1];
 
-        Line l = new Line(DetermineStart(m, b), DetermineEnd(m, b), color, thickness: 3);
+        Line l = new Line(DetermineStart(m, b), DetermineEnd(m, b), color, thickness: 2);
         Lines.Add(l);
     }
 
@@ -42,13 +60,9 @@ public static class LinearDrawer
 
         string mStr = expression.Substring(0, xIndex);
         if (string.IsNullOrEmpty(mStr))
-        {
             m = 1m; // x alone
-        }
         else if (mStr == "-")
-        {
             m = -1m; // -x
-        }
         else
         {
             if (mStr.StartsWith("(") && mStr.EndsWith(")"))
@@ -57,9 +71,22 @@ public static class LinearDrawer
             m = Simplification.SimplifyConstantExpression(mStr);
         }
 
-        string bStr = expression.Substring(xIndex + 1);
+        string bStr = expression.Substring(xIndex + 1).Trim();
         if (!string.IsNullOrEmpty(bStr))
-            b = decimal.Parse(bStr);
+        {
+            bStr = bStr.Replace("+-", "-").Replace("--", "+");
+
+            if (bStr.StartsWith("(") && bStr.EndsWith(")"))
+                bStr = bStr.Substring(1, bStr.Length - 2);
+            if (bStr.StartsWith("+"))
+                bStr = bStr.Substring(1);
+
+            b = Simplification.SimplifyConstantExpression(bStr);
+        }
+        else
+        {
+            b = 0m;
+        }
 
         return new decimal[] { m, b };
     }
@@ -69,8 +96,8 @@ public static class LinearDrawer
         bool negativeGradient = Math.Sign(m) == -1;
 
         // intercepts in terms of grid coordinates, not pixels
-        decimal targY = negativeGradient ? Globals.Grid.TopOfPlane : Globals.Grid.BottomOfPlane;
-        decimal targX = Globals.Grid.LeftOfPlane;
+        decimal targY = (decimal)(negativeGradient ? Globals.Grid.TopOfPlane : Globals.Grid.BottomOfPlane);
+        decimal targX = (decimal)Globals.Grid.LeftOfPlane;
 
         // back to pixels
         float x, y;
@@ -94,8 +121,8 @@ public static class LinearDrawer
         bool negativeGradient = Math.Sign(m) == -1;
 
         // intercepts in terms of grid coordinates, not pixels
-        decimal targY = !negativeGradient ? Globals.Grid.TopOfPlane : Globals.Grid.BottomOfPlane;
-        decimal targX = Globals.Grid.RightOfPlane;
+        decimal targY = (decimal)(!negativeGradient ? Globals.Grid.TopOfPlane : Globals.Grid.BottomOfPlane);
+        decimal targX = (decimal)Globals.Grid.RightOfPlane;
 
         // back to pixels
         float x, y;
@@ -112,5 +139,18 @@ public static class LinearDrawer
         }
 
         return new Vector2(MathF.Min(Globals.WindowWidth, x), x > Globals.WindowWidth ? y : Globals.Grid.yCoordToPosition((float)targY));
+    }
+
+    public static Color lineColor(LineColor color)
+    {
+        return color switch
+        {
+            LineColor.Cyan => new Color(102, 255, 255),
+            LineColor.Magenta => new Color(255, 102, 255),
+            LineColor.Lime => new Color(102, 255, 102),
+            LineColor.GoldenRod => new Color(255, 204, 102),
+            LineColor.White => Color.White,
+            _ => Color.White
+        };
     }
 }

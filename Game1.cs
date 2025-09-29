@@ -11,6 +11,8 @@ namespace MathTest
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private float i = 0f;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -43,6 +45,16 @@ namespace MathTest
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            i += 0.001f;
+
+            decimal m = (decimal)Math.Tan(i);
+            decimal b = 0m;
+
+            string bStr = b >= 0 ? $"+{b}" : b.ToString();
+            string mStr = m.ToString();
+
+            LinearDrawer.AddLine($"y={mStr}x{bStr}", LineColor.Magenta);
 
             base.Update(gameTime);
         }

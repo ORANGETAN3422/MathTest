@@ -33,10 +33,6 @@ public static class Globals
         MainFont = FontSystem.GetFont(FontSize);
 
         Grid = new Grid();
-
-        LinearDrawer.AddLine("y=3x+2", Grid.lineColor[0]);
-        LinearDrawer.AddLine("y=1/2x", Grid.lineColor[1]);
-        LinearDrawer.AddLine("y=2", Grid.lineColor[2]);
     }
 
     public static void Draw(SpriteBatch spriteBatch)

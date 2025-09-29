@@ -17,9 +17,9 @@ public class Grid
 
     private int gapIntervals = 30;
     private int axisWidth = 3;
-    public Color axisColor = new Color(255, 204, 102);
+    public Color axisColor = new Color(230, 230, 230); // 255, 204, 102
     public Color gridLineColor = new Color(51, 51, 51);
-    public Color[] lineColor = new Color[3] { new Color(102, 255, 255), new Color(255, 102, 255), new Color(102, 255, 102) };
+    //public Color[] lineColor = new Color[3] { new Color(102, 255, 255), new Color(255, 102, 255), new Color(102, 255, 102) };
 
     public Vector2 Origin { get; set; } = new Vector2(Globals.WindowWidth / 2, Globals.WindowHeight / 2);
 
@@ -29,11 +29,11 @@ public class Grid
     private Vector2[] xCoords;
     private Vector2[] yCoords;
 
-    public int LeftOfPlane => (int)Origin.X / -gapIntervals;
-    public int RightOfPlane => (int)Origin.X / gapIntervals;
+    public float LeftOfPlane => Origin.X / -gapIntervals;
+    public float RightOfPlane => Origin.X / gapIntervals;
 
-    public int TopOfPlane => (int)Origin.Y / gapIntervals;
-    public int BottomOfPlane => (int)Origin.Y / -gapIntervals;
+    public float TopOfPlane => Origin.Y / gapIntervals;
+    public float BottomOfPlane => Origin.Y / -gapIntervals;
 
     public decimal intervalsPerPixel { get; set; }
 
